@@ -14,7 +14,7 @@ public class AgArayuzu implements IAgArayuzu {
     }
 
     @Override
-    public void sicaklikGonder() {
-
+    public int sicaklikGonder() {
+        return 0;
     }
 }
