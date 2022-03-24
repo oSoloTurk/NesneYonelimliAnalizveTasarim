@@ -1,25 +1,21 @@
 package me.hakki.nat_project.factories;
 
+import me.hakki.nat_project.api.databases.IDatabaseHandler;
 import me.hakki.nat_project.api.factories.IComponentFactory;
+import me.hakki.nat_project.api.objects.IAIP;
 import me.hakki.nat_project.api.objects.IAgArayuzu;
 import me.hakki.nat_project.api.objects.IEyleyici;
 import me.hakki.nat_project.api.objects.ISicaklikAlgilayici;
 import me.hakki.nat_project.objects.AgArayuzu;
+import me.hakki.nat_project.objects.DatabaseType;
 import me.hakki.nat_project.objects.Eyleyici;
 import me.hakki.nat_project.objects.SicaklikAlgilayici;
 
 public class ComponentFactory implements IComponentFactory {
-    private static ComponentFactory instance;
+    private IAIP aip;
 
-    private ComponentFactory(){
-
-    }
-
-    public static ComponentFactory getFactory() {
-        if(instance == null) {
-            instance = new ComponentFactory();
-        }
-        return instance;
+    public ComponentFactory(IAIP aip){
+        this.aip = aip;
     }
 
     @Override
@@ -29,11 +25,16 @@ public class ComponentFactory implements IComponentFactory {
 
     @Override
     public IEyleyici createEyleyici() {
-        return new Eyleyici();
+        return new Eyleyici(aip);
     }
 
     @Override
     public ISicaklikAlgilayici createSicaklikAygilayici() {
         return new SicaklikAlgilayici();
+    }
+
+    @Override
+    public IDatabaseHandler createDatabaseHandler(DatabaseType databaseType) {
+        return databaseType.getHandler();
     }
 }
