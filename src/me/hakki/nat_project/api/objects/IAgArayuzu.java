@@ -3,5 +3,5 @@ package me.hakki.nat_project.api.objects;
 public interface IAgArayuzu {
     void sogutucuyuAc();
     void sogutucuyuKapat();
-    void sicaklikGonder();
+    int sicaklikGonder();
 }
