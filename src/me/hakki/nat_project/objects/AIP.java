@@ -15,7 +15,7 @@ public class AIP implements IAIP {
     private final ComponentFactory factory;
 
     public AIP(){
-        factory = new ComponentFactory(this);
+        factory = ComponentFactory.getInstance();
         agArayuzu = factory.createAgArayuzu();
         eyleyici = factory.createEyleyici();
         sicaklikAlgilayici =factory.createSicaklikAygilayici();

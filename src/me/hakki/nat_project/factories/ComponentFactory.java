@@ -12,10 +12,11 @@ import me.hakki.nat_project.objects.Eyleyici;
 import me.hakki.nat_project.objects.SicaklikAlgilayici;
 
 public class ComponentFactory implements IComponentFactory {
-    private IAIP aip;
+    private static ComponentFactory instance;
+    private ComponentFactory(){ }
 
-    public ComponentFactory(IAIP aip){
-        this.aip = aip;
+    public static ComponentFactory getInstance(){
+        return instance;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class ComponentFactory implements IComponentFactory {
 
     @Override
     public IEyleyici createEyleyici() {
-        return new Eyleyici(aip);
+        return new Eyleyici();
     }
 
     @Override
