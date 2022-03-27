@@ -5,6 +5,7 @@ import me.hakki.nat_project.utils.Generator;
 
 public class SicaklikAlgilayici implements ISicaklikAlgilayici {
     private float sicaklikDegeri;
+    private static SicaklikAlgilayici instance;
 
     public SicaklikAlgilayici(){
         sicaklikDegeri = Generator.getRandomFloat(10f, 50f);
@@ -13,5 +14,10 @@ public class SicaklikAlgilayici implements ISicaklikAlgilayici {
     @Override
     public float sicaklikOku() {
         return sicaklikDegeri;
+    }
+
+    @Override
+    public void sicaklikYaz(float sicaklik) {
+        this.sicaklikDegeri = sicaklik;
     }
 }
