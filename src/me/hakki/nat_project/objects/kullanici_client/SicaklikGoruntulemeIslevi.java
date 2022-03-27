@@ -15,6 +15,6 @@ public class SicaklikGoruntulemeIslevi extends ClientIslevi{
 
     @Override
     protected void handle() {
-        System.out.println("Sicaklik Degeri" + agArayuzu.sicaklikGonder());
+        System.out.println("Sicaklik Degeri: " + agArayuzu.sicaklikGonder());
     }
 }
