@@ -10,16 +10,14 @@ import me.hakki.nat_project.factories.ComponentFactory;
 public class AIP implements IAIP {
     private final IAgArayuzu agArayuzu;
     private final IEyleyici eyleyici;
-    private final ISicaklikAlgilayici sicaklikAlgilayici;
     private final IDatabaseHandler databaseHandler;
-    private final ComponentFactory factory;
+    private final ISicaklikAlgilayici sicaklikAlgilayici;
 
     public AIP(){
-        factory = ComponentFactory.getInstance();
-        agArayuzu = factory.createAgArayuzu(this);
-        eyleyici = factory.createEyleyici();
-        sicaklikAlgilayici =factory.createSicaklikAygilayici();
-        databaseHandler = factory.createDatabaseHandler(DatabaseType.MONGODB);
+        agArayuzu = ComponentFactory.getInstance().getAgArayuzu(this);
+        eyleyici = ComponentFactory.getInstance().getEyleyici();
+        databaseHandler = ComponentFactory.getInstance().getDatabaseHandler(DatabaseType.MONGODB);
+        sicaklikAlgilayici = ComponentFactory.getInstance().getSicaklikAlgilayici();
     }
 
     @Override
@@ -35,11 +33,6 @@ public class AIP implements IAIP {
     @Override
     public float sicaklikOku() {
         return sicaklikAlgilayici.sicaklikOku();
-    }
-
-    @Override
-    public IDatabaseHandler getDatabaseHandler() {
-        return databaseHandler;
     }
 
     public IAgArayuzu getAgArayuzu() {

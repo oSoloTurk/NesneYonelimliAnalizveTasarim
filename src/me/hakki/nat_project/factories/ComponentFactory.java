@@ -13,6 +13,12 @@ import me.hakki.nat_project.objects.SicaklikAlgilayici;
 
 public class ComponentFactory implements IComponentFactory {
     private static ComponentFactory instance;
+
+    private IAgArayuzu agArayuzu;
+    private IEyleyici eyleyici;
+    private IDatabaseHandler dbHandler;
+    private ISicaklikAlgilayici sicaklikAlgilayici;
+
     private ComponentFactory(){ }
 
     public static ComponentFactory getInstance(){
@@ -23,22 +29,39 @@ public class ComponentFactory implements IComponentFactory {
     }
 
     @Override
-    public IAgArayuzu createAgArayuzu(final IAIP aip) {
-        return new AgArayuzu(aip);
+    public IAgArayuzu getAgArayuzu(final IAIP aip) {
+        if(this.agArayuzu == null) {
+            this.agArayuzu = new AgArayuzu(aip);
+        }
+        return this.agArayuzu;
     }
 
     @Override
-    public IEyleyici createEyleyici() {
-        return new Eyleyici();
+    public IEyleyici getEyleyici() {
+        if(this.eyleyici == null) {
+            this.eyleyici = new Eyleyici();
+        }
+        return eyleyici;
     }
 
     @Override
-    public ISicaklikAlgilayici createSicaklikAygilayici() {
-        return new SicaklikAlgilayici();
+    public IDatabaseHandler getDatabaseHandler(DatabaseType databaseType) {
+        if(this.dbHandler == null) {
+            this.dbHandler = databaseType.getHandler();
+        }
+        return dbHandler;
     }
 
     @Override
-    public IDatabaseHandler createDatabaseHandler(DatabaseType databaseType) {
-        return databaseType.getHandler();
+    public IDatabaseHandler getDatabaseHandler() {
+        return dbHandler;
+    }
+
+    @Override
+    public ISicaklikAlgilayici getSicaklikAlgilayici() {
+        if(this.sicaklikAlgilayici == null) {
+            this.sicaklikAlgilayici = new SicaklikAlgilayici();
+        }
+        return sicaklikAlgilayici;
     }
 }
