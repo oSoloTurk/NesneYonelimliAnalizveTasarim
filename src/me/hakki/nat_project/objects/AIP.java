@@ -16,7 +16,7 @@ public class AIP implements IAIP {
 
     public AIP(){
         factory = ComponentFactory.getInstance();
-        agArayuzu = factory.createAgArayuzu();
+        agArayuzu = factory.createAgArayuzu(this);
         eyleyici = factory.createEyleyici();
         sicaklikAlgilayici =factory.createSicaklikAygilayici();
         databaseHandler = factory.createDatabaseHandler(DatabaseType.MONGODB);
@@ -40,5 +40,9 @@ public class AIP implements IAIP {
     @Override
     public IDatabaseHandler getDatabaseHandler() {
         return databaseHandler;
+    }
+
+    public IAgArayuzu getAgArayuzu() {
+        return agArayuzu;
     }
 }
