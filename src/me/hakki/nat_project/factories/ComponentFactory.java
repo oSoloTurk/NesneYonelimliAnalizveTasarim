@@ -16,12 +16,15 @@ public class ComponentFactory implements IComponentFactory {
     private ComponentFactory(){ }
 
     public static ComponentFactory getInstance(){
+        if(instance == null){
+            instance = new ComponentFactory();
+        }
         return instance;
     }
 
     @Override
-    public IAgArayuzu createAgArayuzu() {
-        return new AgArayuzu();
+    public IAgArayuzu createAgArayuzu(final IAIP aip) {
+        return new AgArayuzu(aip);
     }
 
     @Override
