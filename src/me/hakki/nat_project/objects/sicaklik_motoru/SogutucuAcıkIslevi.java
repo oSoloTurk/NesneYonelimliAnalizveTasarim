@@ -5,12 +5,12 @@ import java.util.function.Consumer;
 public class SogutucuAcıkIslevi extends SogutucuIslevi implements Consumer<Float> {
     @Override
     public void accept(Float aktifDeger) {
-        float volume = getRandom().nextFloat();
-        super.sonuc = aktifDeger - volume;
+        float volume = getRandom().nextFloat() / ESITLENME_SURESI;
+        super.sonuc += (SOGUTUCU_ALT_LIMITI - aktifDeger) * volume;
     }
 
     @Override
-    public void handle(float aktifDeger) {
-        this.accept(aktifDeger);
+    public void handle() {
+        this.accept(super.sonuc);
     }
 }
