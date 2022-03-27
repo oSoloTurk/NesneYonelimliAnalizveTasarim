@@ -7,4 +7,5 @@ public interface IAIP {
     void sogutucuyuKapat();
     float sicaklikOku();
     IDatabaseHandler getDatabaseHandler();
+    IAgArayuzu getAgArayuzu();
 }
