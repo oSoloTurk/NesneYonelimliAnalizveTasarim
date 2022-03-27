@@ -8,8 +8,11 @@ import me.hakki.nat_project.api.objects.ISicaklikAlgilayici;
 import me.hakki.nat_project.objects.DatabaseType;
 
 public interface IComponentFactory {
-    IAgArayuzu createAgArayuzu(final IAIP aip);
-    IEyleyici createEyleyici();
-    ISicaklikAlgilayici createSicaklikAygilayici();
-    IDatabaseHandler createDatabaseHandler(DatabaseType db);
+    IAgArayuzu getAgArayuzu(final IAIP aip);
+    IEyleyici getEyleyici();
+    IDatabaseHandler getDatabaseHandler(DatabaseType db);
+
+    IDatabaseHandler getDatabaseHandler();
+
+    ISicaklikAlgilayici getSicaklikAlgilayici();
 }

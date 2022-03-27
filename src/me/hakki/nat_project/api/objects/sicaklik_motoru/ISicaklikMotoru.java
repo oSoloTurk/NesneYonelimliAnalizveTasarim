@@ -5,7 +5,6 @@ import me.hakki.nat_project.objects.sicaklik_motoru.SogutucuModu;
 
 public interface ISicaklikMotoru {
     SogutucuModu getAktifMod();
-    ISicaklikAlgilayici getSicaklikAlgilayici();
     void setAktifMod(SogutucuModu aktifMod);
     void sogutucuyuAc();
     void sogutucuyuKapat();

@@ -6,6 +6,5 @@ public interface IAIP {
     void sogutucuyuAc();
     void sogutucuyuKapat();
     float sicaklikOku();
-    IDatabaseHandler getDatabaseHandler();
     IAgArayuzu getAgArayuzu();
 }
