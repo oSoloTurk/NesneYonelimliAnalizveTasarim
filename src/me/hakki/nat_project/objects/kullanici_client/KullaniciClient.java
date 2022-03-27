@@ -3,6 +3,8 @@ package me.hakki.nat_project.objects.kullanici_client;
 import me.hakki.nat_project.api.objects.IAgArayuzu;
 import me.hakki.nat_project.api.objects.kullanici_client.IKullaniciClient;
 import me.hakki.nat_project.api.objects.kullanici_client.IClientIslevi;
+import me.hakki.nat_project.factories.ComponentFactory;
+import me.hakki.nat_project.objects.Kullanici;
 
 import java.util.Scanner;
 import java.util.function.Function;
@@ -10,7 +12,8 @@ import java.util.function.Function;
 public class KullaniciClient extends Thread implements IKullaniciClient {
 
     protected IAgArayuzu agArayuzu;
-    private Scanner scanner;
+    private Kullanici kullanici;
+    private final Scanner scanner;
 
     public KullaniciClient(){
         scanner = new Scanner(System.in);
@@ -18,8 +21,23 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
 
     @Override
     public void run(){
+        do {
+            kullanici = kullaniciDogrula();
+            if(kullanici == null) {
+                System.out.println("Hatali kullanici adi veya sifre girdiniz.");
+            }
+        }while(kullanici == null);
+
         komutlar();
         komutCalistir();
+    }
+
+    private Kullanici kullaniciDogrula() {
+        System.out.print("Kullanici adi girin: ");
+        String kullaniciAdi = scanner.nextLine();
+        System.out.print("Sifre girin: ");
+        String sifre = scanner.nextLine();
+        return ComponentFactory.getInstance().getDatabaseHandler().girisYap(kullaniciAdi, sifre);
     }
 
     @Override
@@ -27,7 +45,7 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
         this.agArayuzu = agArayuzu;
         Commands.setAgArayuzu(agArayuzu);
         System.out.println("Ana islem platformuna baglanildi!");
-        this.run();
+        this.start();
     }
 
     @Override
@@ -35,12 +53,13 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
         int komut = 0;
         Commands islev = null;
         do {
-            System.out.println("Komut numarasi: ");
+            System.out.print("Komut numarasi: ");
             komut = scanner.nextInt();
             if(komut == -1) break;
             islev = Commands.getCommand(komut);
             if(islev == null) continue;
             islev.getIslev().calistir();
+            komutlar();
         }while(true);
     }
 
@@ -61,14 +80,15 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
 
         private static IAgArayuzu agArayuzu;
         private IClientIslevi islev;
-        private int index;
+        private final Function<IAgArayuzu, IClientIslevi> creator;
+        private final int index;
 
         public static void setAgArayuzu(IAgArayuzu agArayuzu) {
             Commands.agArayuzu = agArayuzu;
         }
 
         public static IAgArayuzu getAgArayuzu() {
-            return agArayuzu;
+            return Commands.agArayuzu;
         }
 
         public static Commands getCommand(final int identifier){
@@ -80,11 +100,14 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
         }
 
         Commands(int index, Function<IAgArayuzu, IClientIslevi> creator) {
-            islev = creator.apply(getAgArayuzu());
+            this.creator = creator;
             this.index = index;
         }
 
         public IClientIslevi getIslev() {
+            if(islev == null) {
+                islev = creator.apply(getAgArayuzu());
+            }
             return islev;
         }
 
