@@ -3,24 +3,35 @@ package me.hakki.nat_project.databases;
 import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
-import com.mongodb.MongoClientURI;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import me.hakki.nat_project.api.databases.IDatabaseHandler;
 import me.hakki.nat_project.objects.Kullanici;
 import me.hakki.nat_project.utils.Generator;
+import me.hakki.nat_project.utils.Hashing;
 import org.bson.Document;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MongoHandler implements IDatabaseHandler {
     private MongoClient client;
     public MongoHandler(){
-        //client and hlZsinYfYNN6Q5It
-
-        ConnectionString connectionString = new ConnectionString(System.getenv("CONNECTION_STRING"));
+        if(System.getProperty("CONNECTION_STRING") == null) {
+            client = null;
+            System.out.println("DB Connection broke, check the connection string");
+            return;
+        }
+        Logger mongoLogger = Logger.getLogger( "org.mongodb.driver" );
+        mongoLogger.setLevel(Level.SEVERE);
+        ConnectionString connectionString = new ConnectionString(System.getProperty("CONNECTION_STRING"));
         MongoClientSettings settings = MongoClientSettings.builder()
+                .applyToConnectionPoolSettings(builder -> builder.maxConnectionIdleTime(60000, TimeUnit.SECONDS))
+                .applyToSocketSettings(builder -> builder.connectTimeout(60000, TimeUnit.SECONDS))
+                .applyToSslSettings(builder -> builder.enabled(true))
                 .applyConnectionString(connectionString)
                 .build();
         client = MongoClients.create(settings);
@@ -31,10 +42,11 @@ public class MongoHandler implements IDatabaseHandler {
         if(client == null) return null;
         BasicDBObject query = new BasicDBObject();
         query.put("username", kullaniciAdi);
-        FindIterable<Document> response = client.getDatabase("nat_project").getCollection("users").find(query);
+        query.put("password_hash", Hashing.MD5(sifre));
+        FindIterable<Document> response = client.getDatabase("temperature").getCollection("users").find(query);
         if(!response.iterator().hasNext()) return null;
         Document userDocument = response.iterator().next();
-        return new Kullanici(userDocument.getString("username"), null);
+        return new Kullanici(userDocument.getString("username"), userDocument.getInteger("permission"));
     }
 
     @Override
@@ -42,7 +54,7 @@ public class MongoHandler implements IDatabaseHandler {
         if(client == null) return 0f;
         BasicDBObject sort_filter = new BasicDBObject();
         sort_filter.put("time", 1);
-        FindIterable<Document> response = client.getDatabase("nat_project")
+        FindIterable<Document> response = client.getDatabase("temperature")
                 .getCollection("temperatures")
                 .find()
                 .sort(sort_filter);
