@@ -3,6 +3,7 @@ package me.hakki.nat_project;
 import me.hakki.nat_project.api.objects.IAIP;
 import me.hakki.nat_project.api.objects.kullanici_client.IKullaniciClient;
 import me.hakki.nat_project.api.objects.sicaklik_motoru.ISicaklikMotoru;
+import me.hakki.nat_project.factories.ComponentFactory;
 import me.hakki.nat_project.objects.AIP;
 import me.hakki.nat_project.objects.kullanici_client.KullaniciClient;
 import me.hakki.nat_project.objects.sicaklik_motoru.SicaklikMotoru;
@@ -15,6 +16,7 @@ public class Main {
         IAIP aip = new AIP();
 
         ISicaklikMotoru sicaklikMotoru = SicaklikMotoru.getInstance(); //create a instance of universal sicaklikMotoru
+
 
         IKullaniciClient client = new KullaniciClient();
         client.baglan(aip.getAgArayuzu());
