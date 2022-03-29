@@ -12,6 +12,7 @@ import me.hakki.nat_project.objects.Eyleyici;
 import me.hakki.nat_project.objects.SicaklikAlgilayici;
 
 public class ComponentFactory implements IComponentFactory {
+
     private static ComponentFactory instance;
 
     private IAgArayuzu agArayuzu;
