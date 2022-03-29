@@ -13,21 +13,22 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
 
     protected IAgArayuzu agArayuzu;
     private Kullanici kullanici;
-    private final Scanner scanner;
+    private Scanner scanner;
 
     public KullaniciClient(){
-        scanner = new Scanner(System.in);
+
     }
 
     @Override
     public void run(){
+        scanner = new Scanner(System.in);
         do {
             kullanici = kullaniciDogrula();
             if(kullanici == null) {
                 System.out.println("Hatali kullanici adi veya sifre girdiniz.");
             }
         }while(kullanici == null);
-
+        System.out.println("Hosgeldiniz, " + kullanici.getKullaniciAdi());
         komutlar();
         komutCalistir();
     }
@@ -37,6 +38,7 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
         String kullaniciAdi = scanner.nextLine();
         System.out.print("Sifre girin: ");
         String sifre = scanner.nextLine();
+        System.out.println("Bilgileriniz Dogrulanıyor...");
         return ComponentFactory.getInstance().getDatabaseHandler().girisYap(kullaniciAdi, sifre);
     }
 
@@ -55,7 +57,13 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
         do {
             System.out.print("Komut numarasi: ");
             komut = scanner.nextInt();
-            if(komut == -1) break;
+            if(komut == -1) {
+                kullanici = null;
+                System.out.println("Cikis Yapiliyor...");
+
+                run();
+                break;
+            }
             islev = Commands.getCommand(komut);
             if(islev == null) continue;
             islev.getIslev().calistir();
@@ -68,6 +76,7 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
         for(Commands command : Commands.values()){
             System.out.println(command.getIndex() + " - " + command.getIslev().aciklama());
         }
+        System.out.println("-1 - Cikis Yap");
         System.out.println("****************************");
     }
 
