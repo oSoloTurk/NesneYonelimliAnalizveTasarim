@@ -1,10 +1,7 @@
 package me.hakki.nat_project.objects;
 
 import me.hakki.nat_project.api.databases.IDatabaseHandler;
-import me.hakki.nat_project.api.objects.IAIP;
-import me.hakki.nat_project.api.objects.IAgArayuzu;
-import me.hakki.nat_project.api.objects.IEyleyici;
-import me.hakki.nat_project.api.objects.ISicaklikAlgilayici;
+import me.hakki.nat_project.api.objects.*;
 import me.hakki.nat_project.factories.ComponentFactory;
 
 public class AIP implements IAIP {
