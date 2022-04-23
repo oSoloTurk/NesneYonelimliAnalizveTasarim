@@ -7,4 +7,5 @@ public interface IDatabaseHandler {
     Kullanici girisYap(final String kullaniciAdi, final String sifre);
     float sicaklikOku();
     void sicaklikYaz(final float yeniDeger);
+    boolean migration();
 }

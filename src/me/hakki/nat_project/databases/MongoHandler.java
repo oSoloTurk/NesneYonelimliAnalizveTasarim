@@ -19,13 +19,14 @@ import java.util.logging.Logger;
 
 public class MongoHandler implements IDatabaseHandler {
     private MongoClient client;
-    public MongoHandler(){
-        if(System.getProperty("CONNECTION_STRING") == null) {
+
+    public MongoHandler() {
+        if (System.getProperty("CONNECTION_STRING") == null) {
             client = null;
             System.out.println("DB Connection broke, check the connection string");
             return;
         }
-        Logger mongoLogger = Logger.getLogger( "org.mongodb.driver" );
+        Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
         mongoLogger.setLevel(Level.SEVERE);
         ConnectionString connectionString = new ConnectionString(System.getProperty("CONNECTION_STRING"));
         MongoClientSettings settings = MongoClientSettings.builder()
@@ -39,38 +40,51 @@ public class MongoHandler implements IDatabaseHandler {
 
     @Override
     public Kullanici girisYap(String kullaniciAdi, String sifre) {
-        if(client == null) return null;
+        if (client == null) return null;
         BasicDBObject query = new BasicDBObject();
         query.put("username", kullaniciAdi);
         query.put("password_hash", Hashing.MD5(sifre));
-        FindIterable<Document> response = client.getDatabase("temperature").getCollection("users").find(query);
-        if(!response.iterator().hasNext()) return null;
+        FindIterable<Document> response = client
+                .getDatabase(System.getProperty("DATABASE_NAME"))
+                .getCollection(System.getProperty("COLLECTION_NAME")).find(query);
+        if (!response.iterator().hasNext()) return null;
         Document userDocument = response.iterator().next();
         return new Kullanici(userDocument.getString("username"), userDocument.getInteger("permission"));
     }
 
     @Override
     public float sicaklikOku() {
-        if(client == null) return 0f;
+        if (client == null) return 0f;
         BasicDBObject sort_filter = new BasicDBObject();
         sort_filter.put("time", 1);
-        FindIterable<Document> response = client.getDatabase("temperature")
-                .getCollection("temperatures")
+        FindIterable<Document> response = client.getDatabase(System.getProperty("DATABASE_NAME"))
+                .getCollection(System.getProperty("COLLECTION_NAME"))
                 .find()
                 .sort(sort_filter);
-        if(!response.iterator().hasNext()) return Generator.getRandomFloat(20, 50);
+        if (!response.iterator().hasNext()) return Generator.getRandomFloat(20, 50);
         Document userDocument = response.iterator().next();
         return userDocument.getDouble("temperature").floatValue();
     }
 
     @Override
     public void sicaklikYaz(float yeniDeger) {
-        if(client == null) return;
+        if (client == null) return;
         Document document = new Document();
         document.put("time", LocalDateTime.now());
         document.put("temperature", LocalDateTime.now());
-        client.getDatabase("nat_project")
-                .getCollection("temperatures")
+        client.getDatabase(System.getProperty("DATABASE_NAME"))
+                .getCollection(System.getProperty("COLLECTION_NAME"))
                 .insertOne(document);
+    }
+
+    @Override
+    public boolean migration() {
+        if (client == null) return false;
+        Document base_user = new Document();
+        base_user.put("username", System.getProperty("DEFAULT_USERNAME"));
+        base_user.put("password_hash", Hashing.MD5(System.getProperty("DEFAULT_PASSWORD")));
+        base_user.put("permission", Integer.parseInt(System.getProperty("DEFAULT_PERMISSION")));
+        client.getDatabase(System.getProperty("DATABASE_NAME")).getCollection(System.getProperty("COLLECTION_NAME")).insertOne(base_user);
+        return true;
     }
 }
