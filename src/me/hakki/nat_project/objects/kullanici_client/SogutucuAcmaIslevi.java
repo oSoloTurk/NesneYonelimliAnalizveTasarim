@@ -16,6 +16,7 @@ public class SogutucuAcmaIslevi extends ClientIslevi {
 
     @Override
     protected void handle() {
+        System.out.println("Sogutucu Acildi!");
         agArayuzu.sogutucuyuAc();
     }
 }

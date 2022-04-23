@@ -15,6 +15,7 @@ public class SogutucuKapatmaIslevi extends ClientIslevi {
 
     @Override
     protected void handle() {
+        System.out.println("Sogutucu Kapatildi!");
         agArayuzu.sogutucuyuKapat();
     }
 }
