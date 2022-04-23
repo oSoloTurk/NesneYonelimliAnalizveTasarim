@@ -4,6 +4,7 @@ import me.hakki.nat_project.api.objects.IAgArayuzu;
 import me.hakki.nat_project.api.objects.kullanici_client.IKullaniciClient;
 import me.hakki.nat_project.api.objects.kullanici_client.IClientIslevi;
 import me.hakki.nat_project.factories.ComponentFactory;
+import me.hakki.nat_project.objects.DatabaseType;
 import me.hakki.nat_project.objects.Kullanici;
 
 import java.util.Scanner;
@@ -39,7 +40,7 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
         System.out.print("Sifre girin: ");
         String sifre = scanner.nextLine();
         System.out.println("Bilgileriniz Dogrulanıyor...");
-        return ComponentFactory.getInstance().getDatabaseHandler().girisYap(kullaniciAdi, sifre);
+        return ComponentFactory.getInstance().getDatabaseHandler(ComponentFactory.ACTIVE_DATABASE_HANDLER).girisYap(kullaniciAdi, sifre);
     }
 
     @Override
@@ -72,6 +73,8 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
     }
 
     private void komutlar(){
+        System.out.println("****************************");
+        System.out.println("Cihaz Durumu: " + agArayuzu.getCihazDurumu());
         System.out.println("****************************");
         for(Commands command : Commands.values()){
             System.out.println(command.getIndex() + " - " + command.getIslev().aciklama());
