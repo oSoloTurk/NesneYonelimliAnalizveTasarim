@@ -5,4 +5,5 @@ public interface IAIP {
     void sogutucuyuKapat();
     float sicaklikOku();
     IAgArayuzu getAgArayuzu();
+    String getDurumMesaji();
 }
