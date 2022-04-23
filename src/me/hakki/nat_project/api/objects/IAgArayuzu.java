@@ -4,4 +4,5 @@ public interface IAgArayuzu {
     void sogutucuyuAc();
     void sogutucuyuKapat();
     float sicaklikGonder();
+    String getCihazDurumu();
 }

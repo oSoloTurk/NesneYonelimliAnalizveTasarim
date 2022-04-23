@@ -24,4 +24,9 @@ public class AgArayuzu implements IAgArayuzu {
     public float sicaklikGonder() {
         return aip.sicaklikOku();
     }
+
+    @Override
+    public String getCihazDurumu() {
+        return aip.getDurumMesaji();
+    }
 }
