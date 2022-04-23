@@ -13,6 +13,7 @@ import me.hakki.nat_project.objects.SicaklikAlgilayici;
 
 public class ComponentFactory implements IComponentFactory {
 
+    public static final DatabaseType ACTIVE_DATABASE_HANDLER = DatabaseType.MONGODB;
     private static ComponentFactory instance;
 
     private IAgArayuzu agArayuzu;
