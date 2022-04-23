@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class DotEnv {
-    public static void load() {
+    public static boolean load() {
         File file = new File(".env");
         if (!file.exists()) {
             System.out.println(".env file not exists!");
-            return;
+            return false;
         }
         Scanner scanner = null;
         try {
@@ -25,5 +25,6 @@ public class DotEnv {
             counter++;
         }
         System.out.println("Loaded " + counter + " environment from .env");
+        return counter > 0;
     }
 }
