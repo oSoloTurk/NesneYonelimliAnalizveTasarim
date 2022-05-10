@@ -34,12 +34,22 @@ public class KullaniciClient extends Thread implements IKullaniciClient {
     }
 
     private Kullanici kullaniciDogrula() {
-        System.out.print("Kullanici adi girin: ");
-        String kullaniciAdi = scanner.nextLine();
+        String kullaniciAdi = "";
+        String sifre = "";
+        do {
+            System.out.print("Kullanici adi girin: ");
+            kullaniciAdi = scanner.nextLine();
+            if(agArayuzu.kullaniciDogrula(kullaniciAdi)){
+                System.out.println("Kullanici adi dogrulandi!");
+                break;
+            } else {
+                System.out.println("Kullanici adi hatali!");
+            }
+        }while(true);
         System.out.print("Sifre girin: ");
-        String sifre = scanner.nextLine();
+        sifre = scanner.nextLine();
         System.out.println("Bilgileriniz Dogrulanıyor...");
-        return ComponentFactory.getInstance().getDatabaseHandler().girisYap(kullaniciAdi, sifre);
+        return agArayuzu.kullaniciDogrula(kullaniciAdi, sifre);
     }
 
     @Override

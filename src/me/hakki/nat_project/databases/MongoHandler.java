@@ -53,6 +53,17 @@ public class MongoHandler implements IDatabaseHandler {
     }
 
     @Override
+    public boolean girisYap(String kullaniciAdi) {
+        if (client == null) return false;
+        BasicDBObject query = new BasicDBObject();
+        query.put("username", kullaniciAdi);
+        FindIterable<Document> response = client
+                .getDatabase(System.getProperty("DATABASE_NAME"))
+                .getCollection(System.getProperty("COLLECTION_NAME")).find(query);
+        return response.iterator().hasNext();
+    }
+
+    @Override
     public float sicaklikOku() {
         if (client == null) return 0f;
         BasicDBObject sort_filter = new BasicDBObject();

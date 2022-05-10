@@ -56,6 +56,9 @@ public class ComponentFactory implements IComponentFactory {
 
     @Override
     public IDatabaseHandler getDatabaseHandler() {
+        if(dbHandler == null) {
+            return getDatabaseHandler(ACTIVE_DATABASE_HANDLER);
+        }
         return dbHandler;
     }
 
