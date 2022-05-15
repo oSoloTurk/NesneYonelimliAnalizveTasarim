@@ -34,7 +34,7 @@ Sakarya University - Project of Object Oriented Analysis and Design Lesson  - Th
 
 Click <a href="https://github.com/oSoloTurk/NesneYonelimliAnalizveTasarim/blob/main/docs/report.pdf">here</a> for the report of project
 
-*Also you can see in the docs folder in the project root*
+*Also you can see in the docs folder at the project root*
 
 ## License
 
