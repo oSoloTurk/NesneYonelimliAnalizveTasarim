@@ -10,7 +10,7 @@ public class SogutucuKapaliIslevi  extends SogutucuIslevi implements Consumer<Fl
         System.out.println("Simule Edilen Ortama Dair Bilgiler:\n" +
                 "\tOda Sicakligi: " + ODA_SICAKLIGI + "\n" +
                 "\tSogutucu Sogutma Limiti: " + SOGUTUCU_ALT_LIMITI + "\n" +
-                "\tOrtam isininin esitlenme suresi: " + ESITLENME_SURESI / 1000 + "(saniye)");
+                "\tOrtam isininin esitlenme suresi: " + ESITLENME_SURESI + "(saniye)");
     }
     @Override
     public void accept(Float aktifDeger) {
